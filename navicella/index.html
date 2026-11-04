@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow"><title>Navicella</title><style>
+:root{--bg:#070912;--panel:#111527;--fg:#e8ecf7;--muted:#9aa3bd;--line:#262c47;--oro:#f5c542;--ok:#4ade80;--bad:#f87171;--ciano:#4fd6e8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1100px;margin:auto;padding:20px 16px 40px;display:flex;flex-direction:column;gap:14px}
+header{display:flex;flex-direction:column;gap:2px}
+.marchio{font:600 .8rem ui-monospace,Menlo,monospace;letter-spacing:.12em;color:var(--muted)}.marchio b{color:var(--ciano)}
+h1{margin:0;font-size:1.7rem}h2{margin:0;font-size:1.1rem}
+p{margin:4px 0 0;color:var(--muted)}a{color:var(--ciano)}
+.nave{position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#04050b}
+canvas{display:block;width:100%;cursor:pointer;image-rendering:pixelated}
+#etichetta{position:absolute;display:none;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:4px 8px;font-size:.8rem;white-space:nowrap}
+.diario{font:.9rem ui-monospace,Menlo,monospace;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px;min-height:44px}
+.stanze{display:flex;flex-wrap:wrap;gap:8px}
+button{font:inherit;font-size:.85rem;color:var(--fg);background:transparent;border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+button.attivo{background:var(--oro);color:#1b1503;border-color:var(--oro)}
+button:focus-visible{outline:2px solid var(--ciano);outline-offset:2px}
+.pannello{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px}
+.tab{overflow-x:auto;margin-top:8px}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th{font-size:.8rem;font-weight:400;color:var(--muted)}th:first-child,td:first-child{text-align:left}
+ul{margin:8px 0 0;padding-left:20px}li{margin:2px 0}
+.pos{color:var(--ok)}.neg{color:var(--bad)}
+small{color:var(--muted)}
+</style></head><body><main>
+<header><div><span class="marchio">TRADING <b>CLUB</b></span><h1>La Navicella</h1></div>
+<p>Ogni stanza è un lavoro vero dei tornei. Tocca una stanza o un agente per vedere i numeri.</p></header>
+<div class="nave" id="nave"><canvas id="tela" aria-label="La navicella con le stanze e gli agenti" role="img"></canvas><div id="etichetta"></div></div>
+<div class="diario" id="diario" aria-live="polite">Diario di bordo: la nave si sta accendendo…</div>
+<nav class="stanze" aria-label="Stanze"><button data-vai='ponte'>Ponte di comando</button><button data-vai='dati'>Sala Dati</button><button data-vai='t1'>Sala Torneo 1</button><button data-vai='t2'>Sala Torneo 2</button><button data-vai='t3'>Sala Torneo 3</button><button data-vai='caso'>Sala CASO</button><button data-vai='tesoro'>Tesoreria</button><button data-vai='archivio'>Archivio</button><button data-vai='mensa'>Mensa</button><button data-vai='motori'>Sala Motori</button></nav>
+<section class='pannello' data-stanza='ponte' hidden><h2>Ponte di comando</h2><p>Qui il Capitano controlla che la nave giri.</p><div class='tab'><ul><li>Ultimo giro dei tornei: <b>04/11 22:19</b></li><li>Prossimo giro: <b>entro un'ora circa</b> (GitHub a volte ritarda)</li><li>Ultima candela dell'oro: <b>04/11 22:09</b></li><li>Prezzo dell'oro: <b>4.074,9$</b></li></ul><p><a href='../'>Pagina dei tornei</a> · <a href='../terminal/'>Trading Club</a></p></div></section><section class='pannello' data-stanza='dati' hidden><h2>Sala Dati</h2><p>Bit scarica le candele da 5 minuti dell&#x27;oro e le porta ai tornei.</p><div class='tab'><ul><li>Candele in archivio: <b>14.331</b></li><li>Ultima candela: <b>04/11 22:09</b></li><li>Ultimo prezzo: <b>4.074,9$</b></li></ul></div></section><section class='pannello' data-stanza='t1' hidden><h2>Sala Torneo 1</h2><p>Linee volumetriche, senza fine. Verdetto a 100 trade.</p><div class='tab'><table><thead><tr><th>Agente</th><th>Trade</th><th>Vinti</th><th>Totale</th><th>Dollari</th></tr></thead><tbody><tr><td>rimbalzo cont-8h RR3</td><td>33</td><td>45%</td><td class='pos'>+4.7R</td><td class='pos'>+47$</td></tr><tr><td>rimbalzo cont-giorno RR3</td><td>33</td><td>45%</td><td class='pos'>+4.5R</td><td class='pos'>+45$</td></tr><tr><td>retest cont-8h RR3</td><td>23</td><td>43%</td><td class='pos'>+0.2R</td><td class='pos'>+2$</td></tr><tr><td>rimbalzo cont-giorno RR2</td><td>33</td><td>42%</td><td class='pos'>+0.1R</td><td class='pos'>+1$</td></tr><tr><td>retest cont-8h RR2</td><td>24</td><td>46%</td><td class='neg'>-0.3R</td><td class='neg'>-3$</td></tr><tr><td>retest cont-giorno RR3</td><td>23</td><td>43%</td><td class='neg'>-0.9R</td><td class='neg'>-9$</td></tr></tbody></table></div></section><section class='pannello' data-stanza='t2' hidden><h2>Sala Torneo 2</h2><p>Linee con filtri, senza fine. Vale solo chi batte CASO.</p><div class='tab'><table><thead><tr><th>Agente</th><th>Trade</th><th>Vinti</th><th>Totale</th><th>Dollari</th></tr></thead><tbody><tr><td>rimbalzo sovrapposizione vol-alta RR1.2</td><td>7</td><td>71%</td><td class='pos'>+3.5R</td><td class='pos'>+35$</td></tr><tr><td>rimbalzo sovrapposizione vol-alta RR1</td><td>8</td><td>62%</td><td class='pos'>+2.1R</td><td class='pos'>+21$</td></tr><tr><td>rimbalzo londra-ny vol-bassa RR1</td><td>10</td><td>60%</td><td class='pos'>+1.7R</td><td class='pos'>+17$</td></tr><tr><td>rimbalzo londra-ny vol-alta RR1</td><td>9</td><td>56%</td><td class='pos'>+1.0R</td><td class='pos'>+10$</td></tr><tr><td>rimbalzo londra-ny vol-bassa RR1.2</td><td>8</td><td>50%</td><td class='pos'>+0.7R</td><td class='pos'>+7$</td></tr><tr><td>rimbalzo sovrapposizione vol-alta RR2</td><td>5</td><td>60%</td><td class='pos'>+0.5R</td><td class='pos'>+5$</td></tr></tbody></table></div></section><section class='pannello' data-stanza='t3' hidden><h2>Sala Torneo 3</h2><p>I 12 indicatori del web, fino al 14/11 11:58. Vale solo chi batte CASO.</p><div class='tab'><table><thead><tr><th>Agente</th><th>Trade</th><th>Vinti</th><th>Totale</th><th>Dollari</th></tr></thead><tbody><tr><td>Stocastico 20/80</td><td>3</td><td>67%</td><td class='pos'>+2.8R</td><td class='pos'>+28$</td></tr><tr><td>Bollinger rimbalzo</td><td>3</td><td>67%</td><td class='pos'>+0.9R</td><td class='pos'>+9$</td></tr><tr><td>RSI 30/70</td><td>2</td><td>50%</td><td class='pos'>+0.3R</td><td class='pos'>+3$</td></tr><tr><td>RSI 30/70 + trend 200</td><td>0</td><td>0%</td><td class=''>+0.0R</td><td class=''>+0$</td></tr><tr><td>Pivot S1/R1</td><td>0</td><td>0%</td><td class=''>+0.0R</td><td class=''>+0$</td></tr><tr><td>Caccia liquidita&#x27; ieri</td><td>0</td><td>0%</td><td class=''>+0.0R</td><td class=''>+0$</td></tr></tbody></table></div></section><section class='pannello' data-stanza='caso' hidden><h2>Sala CASO</h2><p>I CASO entrano a caso, tirando i dadi. Servono da metro: chi non li batte non ha un vantaggio vero.</p><div class='tab'><ul><li>CASO Torneo 2: <b class='neg'>-4.7R (-47$)</b> in 6 trade</li><li>CASO Torneo 3: <b class='neg'>-2.1R (-21$)</b> in 2 trade</li></ul></div></section><section class='pannello' data-stanza='tesoro' hidden><h2>Tesoreria</h2><p>Il risultato di oggi (04/11) e il totale del primo di ogni torneo. 1R = 10$ su un conto simulato da 1.000$.</p><div class='tab'><table><thead><tr><th>Torneo</th><th>In testa</th><th>Trade oggi</th><th>Oggi</th><th>Totale</th></tr></thead><tbody><tr><td>Torneo 1</td><td>rimbalzo cont-8h RR3</td><td>10</td><td class='neg'>-40$</td><td class='pos'>+47$</td></tr><tr><td>Torneo 2</td><td>rimbalzo sovrapposizione vol-alta RR1.2</td><td>4</td><td class='pos'>+24$</td><td class='pos'>+35$</td></tr><tr><td>Torneo 3</td><td>Stocastico 20/80</td><td>3</td><td class='pos'>+28$</td><td class='pos'>+28$</td></tr></tbody></table></div></section><section class='pannello' data-stanza='archivio' hidden><h2>Archivio</h2><p>Gli ultimi trade chiusi dagli agenti a bordo.</p><div class='tab'><table><thead><tr><th>Ora</th><th>Torneo</th><th>Agente</th><th>Lato</th><th>Risultato</th></tr></thead><tbody><tr><td>04/11 20:10</td><td>T1</td><td>rimbalzo cont-giorno RR3</td><td>LONG</td><td class='neg'>-1.07R (-11$)</td></tr><tr><td>04/11 19:55</td><td>T3</td><td>CASO T3</td><td>LONG</td><td class='neg'>-1.07R (-11$)</td></tr><tr><td>04/11 19:40</td><td>T3</td><td>Bollinger rimbalzo</td><td>LONG</td><td class='pos'>+0.05R (+0$)</td></tr><tr><td>04/11 18:52</td><td>T3</td><td>RSI 30/70</td><td>SHORT</td><td class='pos'>+1.37R (+14$)</td></tr><tr><td>04/11 18:50</td><td>T1</td><td>retest cont-8h RR3</td><td>LONG</td><td class='neg'>-1.05R (-10$)</td></tr><tr><td>04/11 18:15</td><td>T1</td><td>rimbalzo cont-giorno RR3</td><td>SHORT</td><td class='pos'>+0.47R (+5$)</td></tr><tr><td>04/11 17:55</td><td>T3</td><td>RSI 30/70</td><td>SHORT</td><td class='neg'>-1.05R (-10$)</td></tr><tr><td>04/11 17:40</td><td>T3</td><td>Bollinger rimbalzo</td><td>SHORT</td><td class='neg'>-1.05R (-10$)</td></tr><tr><td>04/11 17:30</td><td>T2</td><td>rimbalzo londra-ny vol-bassa RR1</td><td>LONG</td><td class='pos'>+0.96R (+10$)</td></tr><tr><td>04/11 17:30</td><td>T1</td><td>rimbalzo cont-8h RR3</td><td>LONG</td><td class='pos'>+2.59R (+26$)</td></tr></tbody></table></div></section><section class='pannello' data-stanza='mensa' hidden><h2>Mensa</h2><p>Gli agenti vengono qui a riposarsi tra un trade e l&#x27;altro. Non ha numeri: è solo per il morale.</p><div class='tab'></div></section><section class='pannello' data-stanza='motori' hidden><h2>Sala Motori</h2><p>I motori sono GitHub: ogni ora fanno girare i tre tornei e aggiornano queste pagine, gratis.</p><div class='tab'><ul><li>Ultimo giro: <b>04/11 22:19</b></li><li>Giro ogni ora, verso il minuto 17</li></ul></div></section>
+<small>Gli omini sono un'animazione: rifanno gli ultimi trade veri, uno alla volta. I numeri arrivano dai tornei, aggiornati a ogni giro di GitHub.
+Simulazione senza soldi veri, non è un consiglio finanziario. La pagina si ricarica da sola ogni 5 minuti.</small>
+</main><script type="application/json" id="dati">{"agenti": [{"id": "t1-0", "nome": "rimbalzo cont-8h RR3", "stanza": "t1", "torneo": 1, "totale": 4.7, "ruolo": "gara"}, {"id": "t1-1", "nome": "rimbalzo cont-giorno RR3", "stanza": "t1", "torneo": 1, "totale": 4.5, "ruolo": "gara"}, {"id": "t1-2", "nome": "retest cont-8h RR3", "stanza": "t1", "torneo": 1, "totale": 0.2, "ruolo": "gara"}, {"id": "t2-0", "nome": "rimbalzo sovrapposizione vol-alta RR1.2", "stanza": "t2", "torneo": 2, "totale": 3.5, "ruolo": "gara"}, {"id": "t2-1", "nome": "rimbalzo sovrapposizione vol-alta RR1", "stanza": "t2", "torneo": 2, "totale": 2.1, "ruolo": "gara"}, {"id": "t2-2", "nome": "rimbalzo londra-ny vol-bassa RR1", "stanza": "t2", "torneo": 2, "totale": 1.7, "ruolo": "gara"}, {"id": "t3-0", "nome": "Stocastico 20/80", "stanza": "t3", "torneo": 3, "totale": 2.8, "ruolo": "gara"}, {"id": "t3-1", "nome": "Bollinger rimbalzo", "stanza": "t3", "torneo": 3, "totale": 0.9, "ruolo": "gara"}, {"id": "t3-2", "nome": "RSI 30/70", "stanza": "t3", "torneo": 3, "totale": 0.3, "ruolo": "gara"}, {"id": "caso2", "nome": "CASO T2", "stanza": "caso", "torneo": 2, "totale": -4.7, "ruolo": "caso"}, {"id": "caso3", "nome": "CASO T3", "stanza": "caso", "torneo": 3, "totale": -2.1, "ruolo": "caso"}, {"id": "capitano", "nome": "Capitano", "stanza": "ponte", "torneo": 0, "totale": 0, "ruolo": "capitano"}, {"id": "bit", "nome": "Bit", "stanza": "dati", "torneo": 0, "totale": 0, "ruolo": "bit"}, {"id": "tesoriere", "nome": "Tesoriere", "stanza": "tesoro", "torneo": 0, "totale": 0, "ruolo": "tesoriere"}, {"id": "archivista", "nome": "Archivista", "stanza": "archivio", "torneo": 0, "totale": 0, "ruolo": "archivista"}], "curve": {"1": [0.0, -1.05, -2.08, -2.48, 0.42, -0.63, 0.5, 0.08, 0.21, 3.14, 3.69, 3.97, 6.5, 7.18, 6.12, 5.07, 4.02, 4.6, 3.53, 5.46, 6.6, 6.91, 5.84, 8.74, 7.67, 8.65, 8.41, 7.35, 6.29, 5.24, 4.19, 3.15, 2.11, 4.7], "2": [0.0, -0.66, 0.52, 1.11, 2.26, 3.42, 4.58, 3.54], "3": [0.0, 1.93, 0.88, 2.83]}, "eventi": [{"chi": "t3-0", "ora": "2026-11-04 10:30", "ora_it": "04/11 16:30", "torneo": 3, "nome": "Stocastico 20/80", "lato": "LONG", "r": 1.95, "usd": "+20$"}, {"chi": "t2-0", "ora": "2026-11-04 10:45", "ora_it": "04/11 16:45", "torneo": 2, "nome": "rimbalzo sovrapposizione vol-alta RR1.2", "lato": "LONG", "r": 1.16, "usd": "+12$"}, {"chi": "t2-1", "ora": "2026-11-04 11:10", "ora_it": "04/11 17:10", "torneo": 2, "nome": "rimbalzo sovrapposizione vol-alta RR1", "lato": "SHORT", "r": -1.04, "usd": "-10$"}, {"chi": "t2-0", "ora": "2026-11-04 11:10", "ora_it": "04/11 17:10", "torneo": 2, "nome": "rimbalzo sovrapposizione vol-alta RR1.2", "lato": "SHORT", "r": -1.04, "usd": "-10$"}, {"chi": "t1-0", "ora": "2026-11-04 11:30", "ora_it": "04/11 17:30", "torneo": 1, "nome": "rimbalzo cont-8h RR3", "lato": "LONG", "r": 2.59, "usd": "+26$"}, {"chi": "t2-2", "ora": "2026-11-04 11:30", "ora_it": "04/11 17:30", "torneo": 2, "nome": "rimbalzo londra-ny vol-bassa RR1", "lato": "LONG", "r": 0.96, "usd": "+10$"}, {"chi": "t3-1", "ora": "2026-11-04 11:40", "ora_it": "04/11 17:40", "torneo": 3, "nome": "Bollinger rimbalzo", "lato": "SHORT", "r": -1.05, "usd": "-10$"}, {"chi": "t3-2", "ora": "2026-11-04 11:55", "ora_it": "04/11 17:55", "torneo": 3, "nome": "RSI 30/70", "lato": "SHORT", "r": -1.05, "usd": "-10$"}, {"chi": "t1-1", "ora": "2026-11-04 12:15", "ora_it": "04/11 18:15", "torneo": 1, "nome": "rimbalzo cont-giorno RR3", "lato": "SHORT", "r": 0.47, "usd": "+5$"}, {"chi": "t1-2", "ora": "2026-11-04 12:50", "ora_it": "04/11 18:50", "torneo": 1, "nome": "retest cont-8h RR3", "lato": "LONG", "r": -1.05, "usd": "-10$"}, {"chi": "t3-2", "ora": "2026-11-04 12:52", "ora_it": "04/11 18:52", "torneo": 3, "nome": "RSI 30/70", "lato": "SHORT", "r": 1.37, "usd": "+14$"}, {"chi": "t3-1", "ora": "2026-11-04 13:40", "ora_it": "04/11 19:40", "torneo": 3, "nome": "Bollinger rimbalzo", "lato": "LONG", "r": 0.05, "usd": "+0$"}, {"chi": "caso3", "ora": "2026-11-04 13:55", "ora_it": "04/11 19:55", "torneo": 3, "nome": "CASO T3", "lato": "LONG", "r": -1.07, "usd": "-11$"}, {"chi": "t1-1", "ora": "2026-11-04 14:10", "ora_it": "04/11 20:10", "torneo": 1, "nome": "rimbalzo cont-giorno RR3", "lato": "LONG", "r": -1.07, "usd": "-11$"}], "prezzo": 4074.9, "stanze": {"ponte": "Ponte di comando", "dati": "Sala Dati", "t1": "Sala Torneo 1", "t2": "Sala Torneo 2", "t3": "Sala Torneo 3", "caso": "Sala CASO", "tesoro": "Tesoreria", "archivio": "Archivio", "mensa": "Mensa", "motori": "Sala Motori"}}</script><script>
+const D = JSON.parse(document.getElementById('dati').textContent);
+const tela = document.getElementById('tela'), ctx = tela.getContext('2d');
+const nave = document.getElementById('nave'), etichetta = document.getElementById('etichetta'), diario = document.getElementById('diario');
+const fermo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const T = 8;  // un mattoncino
+const FILE_A = ['dati', 't1', 't2', 't3'], FILE_B = ['archivio', 'caso', 'tesoro', 'mensa'];
+const COLORE_STANZA = {ponte: '#16365a', dati: '#14324a', t1: '#2a2150', t2: '#2a2150', t3: '#2a2150', caso: '#3d1d3a',
+  tesoro: '#3a2e12', archivio: '#1f2a2a', mensa: '#1e3326', motori: '#33202a'};
+let L, scala = 1, verticale = false, stelle = [], scelta = null, sopra = null;
+
+function impagina() {
+  verticale = nave.clientWidth < 640;
+  const S = {};
+  if (!verticale) {
+    const w = 11 * T, h = 9 * T, x0 = 7 * T, yA = 3 * T, yC = yA + h, hc = 3 * T, yB = yC + hc;
+    FILE_A.forEach((k, i) => S[k] = {x: x0 + i * (w + T), y: yA, w, h, porta: 'giu'});
+    FILE_B.forEach((k, i) => S[k] = {x: x0 + i * (w + T), y: yB, w, h, porta: 'su'});
+    const fine = x0 + 4 * (w + T) - T;
+    S.ponte = {x: fine + T, y: yC - 4 * T, w: 9 * T, h: hc + 8 * T, porta: 'sx'};
+    S.motori = {x: T, y: yC - 3 * T, w: 5 * T, h: hc + 6 * T, porta: 'dx'};
+    L = {W: fine + 15 * T, H: yB + h + 3 * T, S, corr: {x: 6 * T, y: yC, w: fine - 5 * T, h: hc}, asse: 'x', linea: yC + hc / 2};
+  } else {
+    const w = 11 * T, h = 9 * T, y0 = 12 * T, xA = 2 * T, wc = 3 * T, xC = xA + w, xB = xC + wc;
+    FILE_A.forEach((k, i) => S[k] = {x: xA, y: y0 + i * (h + T), w, h, porta: 'dx'});
+    FILE_B.forEach((k, i) => S[k] = {x: xB, y: y0 + i * (h + T), w, h, porta: 'sx'});
+    const fine = y0 + 4 * (h + T) - T;
+    S.ponte = {x: xC - 4 * T, y: 5 * T, w: wc + 8 * T, h: 6 * T, porta: 'giu'};
+    S.motori = {x: xC - 3 * T, y: fine + T, w: wc + 6 * T, h: 5 * T, porta: 'su'};
+    L = {W: xB + w + 2 * T, H: fine + 9 * T, S, corr: {x: xC, y: 11 * T, w: wc, h: fine - 10 * T}, asse: 'y', linea: xC + wc / 2};
+  }
+  for (const s of Object.values(S)) {
+    s.px = s.porta === 'giu' || s.porta === 'su' ? s.x + s.w / 2 : s.porta === 'sx' ? s.x : s.x + s.w;
+    s.py = s.porta === 'sx' || s.porta === 'dx' ? s.y + s.h / 2 : s.porta === 'su' ? s.y : s.y + s.h;
+  }
+  scala = nave.clientWidth / L.W;
+  const dpr = devicePixelRatio || 1;
+  tela.width = Math.round(L.W * scala * dpr); tela.height = Math.round(L.H * scala * dpr);
+  tela.style.height = L.H * scala + 'px';
+  ctx.setTransform(scala * dpr, 0, 0, scala * dpr, 0, 0);
+  ctx.imageSmoothingEnabled = false;
+  stelle = Array.from({length: 90}, () => ({x: Math.random() * L.W, y: Math.random() * L.H, v: 4 + Math.random() * 18, c: Math.random()}));
+  for (const a of agenti) if (!a.via.length) { const p = puntoIn(a.stanza); a.x = p.x; a.y = p.y; }
+}
+
+const r = (x, y, w, h, c) => { ctx.fillStyle = c; ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h)); };
+const caso = (a, b) => a + Math.random() * (b - a);
+function puntoIn(k) {
+  const s = L.S[k];
+  return {x: caso(s.x + 10, s.x + s.w - 10), y: caso(s.y + s.h * 0.45, s.y + s.h - 8)};
+}
+
+// ---------- Agenti ----------
+const CAMICIA = {capitano: '#e8ecf7', bit: '#4fd6e8', tesoriere: '#f5c542', archivista: '#a78bfa', caso: '#f472b6'};
+const agenti = D.agenti.map((a) => ({...a, x: 0, y: 0, via: [], pausa: caso(0, 3), passo: 0, fumetto: null, carico: false, impegnato: false,
+  camicia: CAMICIA[a.ruolo] || (a.totale > 0 ? '#4ade80' : a.totale < 0 ? '#f87171' : '#cbd5e1'),
+  pelle: ['#f1c27d', '#c68642', '#8d5524', '#e0ac69'][a.id.length % 4]}));
+const trova = (id) => agenti.find((a) => a.id === id);
+
+function percorso(a, dove, punto) {
+  const da = L.S[stanzaDi(a)], a2 = L.S[dove];
+  const fine = punto || puntoIn(dove);
+  if (da === a2) return [fine];
+  const sulla = (s) => L.asse === 'x' ? {x: s.px, y: L.linea} : {x: L.linea, y: s.py};
+  return [{x: da.px, y: da.py}, sulla(da), sulla(a2), {x: a2.px, y: a2.py}, fine];
+}
+function stanzaDi(a) {
+  for (const [k, s] of Object.entries(L.S)) if (a.x >= s.x && a.x <= s.x + s.w && a.y >= s.y && a.y <= s.y + s.h) return k;
+  return a.stanza;
+}
+function vai(a, dove, punto) { a.via = percorso(a, dove, punto); a.qui = dove; return new Promise((ok) => (a.arrivato = ok)); }
+const aspetta = (s) => new Promise((ok) => setTimeout(ok, s * 1000));
+
+function muovi(a, dt) {
+  if (!a.via.length) {
+    if (a.impegnato) return;
+    a.pausa -= dt;
+    if (a.pausa <= 0) {
+      a.pausa = caso(2, 6);
+      if (a.ruolo === 'gara' && Math.random() < 0.08) {
+        a.impegnato = true;
+        vai(a, 'mensa').then(() => aspetta(caso(4, 8))).then(() => vai(a, a.stanza)).then(() => (a.impegnato = false));
+      } else vai(a, stanzaDi(a));
+    }
+    return;
+  }
+  const p = a.via[0], dx = p.x - a.x, dy = p.y - a.y, d = Math.hypot(dx, dy), v = 28 * dt;
+  a.passo += dt;
+  if (d <= v) { a.x = p.x; a.y = p.y; a.via.shift(); if (!a.via.length && a.arrivato) { const f = a.arrivato; a.arrivato = null; f(); } }
+  else { a.x += dx / d * v; a.y += dy / d * v; a.verso = dx < 0 ? -1 : dx > 0 ? 1 : a.verso || 1; }
+}
+
+function disegnaAgente(a) {
+  const x = Math.round(a.x) - 3, y = Math.round(a.y) - 10, cammina = a.via.length > 0, f = cammina ? Math.floor(a.passo * 8) % 2 : 0;
+  r(x + 1, y + 10, 5, 1, 'rgba(0,0,0,.35)');
+  r(x + 1, y, 4, 4, a.pelle);
+  r(x + 1, y, 4, 1, a.ruolo === 'capitano' ? '#1d4ed8' : '#3b2a1a');
+  r(x + (a.verso === -1 ? 1 : 4), y + 2, 1, 1, '#111');
+  r(x, y + 4, 6, 4, a.camicia);
+  r(x + 1, y + 8, 1, f ? 1 : 2, '#1e2235'); r(x + 4, y + 8, 1, f ? 2 : 1, '#1e2235');
+  if (a.carico) r(x + (a.verso === -1 ? -2 : 5), y + 4, 3, 3, a.ruolo === 'bit' ? '#4fd6e8' : '#f5c542');
+  if (a === scelta || a === sopra) { ctx.strokeStyle = '#f5c542'; ctx.lineWidth = 0.6; ctx.strokeRect(x - 1.5, y - 1.5, 9, 13); }
+  if (a.fumetto) {
+    ctx.font = '600 6px ui-monospace,Menlo,monospace';
+    const w = ctx.measureText(a.fumetto.testo).width + 6;
+    r(a.x - w / 2, y - 11, w, 9, '#0b0e1c'); ctx.strokeStyle = a.fumetto.colore; ctx.lineWidth = 0.6; ctx.strokeRect(a.x - w / 2, y - 11, w, 9);
+    ctx.fillStyle = a.fumetto.colore; ctx.textAlign = 'center'; ctx.fillText(a.fumetto.testo, a.x, y - 4.5);
+  }
+}
+
+// ---------- Nave ----------
+function disegnaStanza(k, s, t) {
+  const pareti = '#3a4170';
+  r(s.x - 2, s.y - 2, s.w + 4, s.h + 4, pareti);
+  r(s.x, s.y, s.w, s.h, COLORE_STANZA[k]);
+  for (let i = 0; i < s.w; i += T) for (let j = Math.round(s.h * 0.4); j < s.h; j += T)
+    if (((i + j) / T) % 2 === 0) r(s.x + i, s.y + j, Math.min(T, s.w - i), Math.min(T, s.h - j), 'rgba(255,255,255,.035)');
+  r(s.x, s.y, s.w, Math.round(s.h * 0.4), 'rgba(0,0,0,.22)');
+  const lampeggia = (n) => (Math.floor(t * 2 + n) % 3 === 0);
+  const top = s.y + 3, cx = s.x + s.w / 2;
+  if (k === 'dati') for (let i = 0; i < 4; i++) {
+    const x = s.x + 6 + i * 20; r(x, top, 12, 24, '#0b1220'); r(x + 1, top + 1, 10, 22, '#1d2b45');
+    for (let j = 0; j < 5; j++) r(x + 2 + (j % 2) * 5, top + 3 + j * 4, 3, 1, lampeggia(i + j) ? '#4fd6e8' : '#14506a');
+  }
+  if (/^t[123]$/.test(k)) {
+    const n = Number(k[1]), capi = agenti.filter((a) => a.stanza === k);
+    r(s.x + 6, top, s.w - 12, 22, '#0b0e1c'); r(s.x + 7, top + 1, s.w - 14, 20, '#121a33');
+    const pts = D.curve[n], v = pts[pts.length - 1];
+    const lo = Math.min(...pts, -1), hi = Math.max(...pts, 1), w = s.w - 18;
+    ctx.strokeStyle = v >= 0 ? '#4ade80' : '#f87171'; ctx.lineWidth = 0.8; ctx.beginPath();
+    pts.forEach((p, i) => { const x = s.x + 9 + i / Math.max(pts.length - 1, 1) * w, y = top + 19 - (p - lo) / (hi - lo) * 16; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+    ctx.stroke();
+    for (let i = 0; i < 3; i++) { r(s.x + 10 + i * 26, s.y + s.h - 16, 16, 4, '#5b4632'); r(s.x + 13 + i * 26, s.y + s.h - 22, 10, 6, '#0b0e1c'); r(s.x + 14 + i * 26, s.y + s.h - 21, 8, 4, lampeggia(i) ? '#4fd6e8' : '#2b6cb0'); }
+  }
+  if (k === 'caso') {
+    r(cx - 14, top + 6, 28, 16, '#5a1f48'); r(cx - 12, top + 8, 24, 12, '#0f5132');
+    const faccia = Math.floor(t * 1.5) % 6 + 1;
+    [[cx - 9, faccia], [cx + 2, (faccia * 5) % 6 + 1]].forEach(([x, f]) => { r(x, top + 10, 7, 7, '#f8fafc');
+      const punti = {1: [[3, 3]], 2: [[1, 1], [5, 5]], 3: [[1, 1], [3, 3], [5, 5]], 4: [[1, 1], [5, 1], [1, 5], [5, 5]], 5: [[1, 1], [5, 1], [3, 3], [1, 5], [5, 5]], 6: [[1, 1], [5, 1], [1, 3], [5, 3], [1, 5], [5, 5]]}[f];
+      punti.forEach(([a, b]) => r(x + a, top + 10 + b, 1, 1, '#111')); });
+  }
+  if (k === 'tesoro') {
+    r(s.x + 6, top, 22, 24, '#4b5563'); r(s.x + 8, top + 2, 18, 20, '#6b7280'); r(s.x + 15, top + 10, 4, 4, '#f5c542');
+    for (let i = 0; i < 3; i++) for (let j = 0; j <= i; j++) r(s.x + s.w - 14 - i * 9 + j * 4, top + 18 - (2 - i) * 0 - j * 4, 8, 3, lampeggia(i + j) ? '#fde68a' : '#f5c542');
+  }
+  if (k === 'archivio') for (let i = 0; i < 4; i++) {
+    const x = s.x + 6 + i * 20; r(x, top, 14, 24, '#3f2d1f');
+    for (let j = 0; j < 3; j++) for (let b = 0; b < 4; b++) r(x + 1 + b * 3, top + 2 + j * 8, 2, 6, ['#a78bfa', '#4fd6e8', '#f5c542', '#f472b6'][(i + j + b) % 4]);
+  }
+  if (k === 'mensa') {
+    r(cx - 18, s.y + s.h - 22, 36, 6, '#6b4f36'); r(cx - 16, s.y + s.h - 16, 2, 6, '#3f2d1f'); r(cx + 14, s.y + s.h - 16, 2, 6, '#3f2d1f');
+    r(s.x + 6, top + 4, 10, 18, '#94a3b8'); r(s.x + 8, top + 7, 6, 4, lampeggia(1) ? '#f97316' : '#7c2d12');
+    r(s.x + s.w - 14, top + 12, 8, 10, '#7c4a2d'); r(s.x + s.w - 16, top + 2, 12, 10, '#22c55e');
+  }
+  if (k === 'ponte') {
+    const fin = {x: s.x + 6, y: s.y + 6, w: s.w - 12, h: Math.round(s.h * 0.38)};
+    r(fin.x, fin.y, fin.w, fin.h, '#02030a');
+    for (let i = 0; i < 12; i++) r(fin.x + ((i * 37 + t * 20) % fin.w), fin.y + (i * 13) % fin.h, 1, 1, '#ffffff');
+    r(s.x + 8, fin.y + fin.h + 4, s.w - 16, 5, '#1f2937');
+    ctx.font = '600 6px ui-monospace,Menlo,monospace'; ctx.fillStyle = '#f5c542'; ctx.textAlign = 'center';
+    ctx.fillText('ORO ' + D.prezzo.toLocaleString('it-IT', {minimumFractionDigits: 1}), s.x + s.w / 2, fin.y + fin.h + 16);
+  }
+  if (k === 'motori') {
+    for (let i = 0; i < 2; i++) { const y = s.y + 8 + i * (s.h / 2 - 4); r(s.x + 4, y, s.w - 8, s.h / 2 - 12, '#4b5563'); r(s.x + 7, y + 3, s.w - 14, s.h / 2 - 18, lampeggia(i) ? '#f97316' : '#ea580c'); }
+  }
+  // porta
+  const pw = 8;
+  if (s.porta === 'giu' || s.porta === 'su') r(s.px - pw / 2, s.py - 2, pw, 4, '#4fd6e8');
+  else r(s.px - 2, s.py - pw / 2, 4, pw, '#4fd6e8');
+  if (k === scegliStanza) { ctx.strokeStyle = '#f5c542'; ctx.lineWidth = 1; ctx.strokeRect(s.x - 2.5, s.y - 2.5, s.w + 5, s.h + 5); }
+}
+
+const NOMI = {ponte: 'PONTE', dati: 'DATI', t1: 'TORNEO 1', t2: 'TORNEO 2', t3: 'TORNEO 3', caso: 'CASO', tesoro: 'TESORO', archivio: 'ARCHIVIO', mensa: 'MENSA', motori: 'MOTORI'};
+function disegnaNome(k, s) {
+  ctx.font = '600 5px ui-monospace,Menlo,monospace'; ctx.textAlign = 'left';
+  const w = ctx.measureText(NOMI[k]).width + 4, y = s.y + s.h - 8;
+  r(s.x + 2, y, w, 7, 'rgba(4,5,11,.78)');
+  ctx.fillStyle = k === scegliStanza ? '#f5c542' : '#cbd5e1'; ctx.fillText(NOMI[k], s.x + 4, y + 5.3);
+}
+
+function disegnaScafo(t) {
+  const S = L.S, c = L.corr;
+  const xs = Object.values(S).flatMap((s) => [s.x, s.x + s.w]), ys = Object.values(S).flatMap((s) => [s.y, s.y + s.h]);
+  const x0 = Math.min(...xs) - 6, x1 = Math.max(...xs) + 6, y0 = Math.min(...ys) - 6, y1 = Math.max(...ys) + 6;
+  // fiamme
+  const fl = 6 + Math.sin(t * 20) * 2 + Math.random() * 2;
+  if (L.asse === 'x') { for (const y of [S.motori.y + 10, S.motori.y + S.motori.h - 18]) { r(x0 - fl - 4, y, fl + 4, 8, '#f97316'); r(x0 - fl / 2 - 2, y + 2, fl / 2 + 2, 4, '#fde68a'); } }
+  else { for (const x of [S.motori.x + 6, S.motori.x + S.motori.w - 14]) { r(x, y1, 8, fl + 4, '#f97316'); r(x + 2, y1, 4, fl / 2 + 2, '#fde68a'); } }
+  ctx.fillStyle = '#1a1f38'; ctx.strokeStyle = '#4fd6e8'; ctx.lineWidth = 1;
+  ctx.beginPath();
+  if (L.asse === 'x') {
+    const p = S.ponte, punta = p.x + p.w + 34;
+    ctx.moveTo(x0, y0 + 10); ctx.lineTo(p.x - 4, y0); ctx.lineTo(p.x + p.w * 0.4, y0); ctx.lineTo(punta, (y0 + y1) / 2);
+    ctx.lineTo(p.x + p.w * 0.4, y1); ctx.lineTo(p.x - 4, y1); ctx.lineTo(x0, y1 - 10);
+  } else {
+    const p = S.ponte, punta = p.y - 30;
+    ctx.moveTo(x0 + 10, y1); ctx.lineTo(x0, S.dati.y - 4); ctx.lineTo(x0, p.y + p.h * 0.6); ctx.lineTo((x0 + x1) / 2, punta);
+    ctx.lineTo(x1, p.y + p.h * 0.6); ctx.lineTo(x1, S.dati.y - 4); ctx.lineTo(x1 - 10, y1);
+  }
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  // corridoio
+  r(c.x, c.y, c.w, c.h, '#232a4a');
+  const n = L.asse === 'x' ? c.w : c.h;
+  for (let i = 0; i < n; i += 12) {
+    const acceso = Math.floor(t * 6 - i / 12) % 8 === 0 ? '#4fd6e8' : '#2f3a66';
+    if (L.asse === 'x') r(c.x + i, c.y + c.h / 2 - 0.5, 6, 1, acceso); else r(c.x + c.w / 2 - 0.5, c.y + i, 1, 6, acceso);
+  }
+}
+
+let scegliStanza = null, ultimo = performance.now();
+function ciclo(ora) {
+  const dt = Math.min(0.05, (ora - ultimo) / 1000), t = ora / 1000; ultimo = ora;
+  ctx.fillStyle = '#04050b'; ctx.fillRect(0, 0, L.W, L.H);
+  for (const s of stelle) {
+    if (!fermo) { if (L.asse === 'x') { s.x -= s.v * dt; if (s.x < 0) s.x += L.W; } else { s.y += s.v * dt; if (s.y > L.H) s.y -= L.H; } }
+    r(s.x, s.y, 1, 1, s.c > 0.8 ? '#fde68a' : s.c > 0.5 ? '#94a3b8' : '#475569');
+  }
+  disegnaScafo(fermo ? 0 : t);
+  for (const [k, s] of Object.entries(L.S)) disegnaStanza(k, s, fermo ? 0 : t);
+  for (const a of agenti) if (!fermo) muovi(a, dt);
+  for (const [k, s] of Object.entries(L.S)) disegnaNome(k, s);
+  [...agenti].sort((a, b) => a.y - b.y).forEach(disegnaAgente);
+  requestAnimationFrame(ciclo);
+}
+
+// ---------- Storie vere ----------
+const scrivi = (testo) => { diario.textContent = 'Diario di bordo · ' + testo; };
+async function racconta() {
+  await aspetta(1.5);
+  let i = 0;
+  while (true) {
+    if (D.eventi.length) {
+      const e = D.eventi[i % D.eventi.length], a = trova(e.chi), tes = trova('tesoriere');
+      i++;
+      if (a && !a.impegnato) {
+        a.impegnato = true;
+        scrivi(`${e.ora_it} · Torneo ${e.torneo} · ${e.nome} ha chiuso un ${e.lato} a ${e.r >= 0 ? '+' : ''}${e.r.toFixed(2).replace('.', ',')}R (${e.usd}). Lo porta in Tesoreria.`);
+        a.via = []; if (a.arrivato) { a.arrivato(); a.arrivato = null; }
+        a.carico = true;
+        const s = L.S.tesoro;
+        await vai(a, 'tesoro', {x: s.x + s.w / 2 + caso(-8, 8), y: s.y + s.h - 10});
+        a.carico = false;
+        a.fumetto = {testo: e.usd, colore: e.r >= 0 ? '#4ade80' : '#f87171'};
+        if (tes) tes.fumetto = {testo: e.r >= 0 ? 'Incassato!' : 'Segnato', colore: '#f5c542'};
+        await aspetta(2.6);
+        a.fumetto = null; if (tes) tes.fumetto = null;
+        await vai(a, a.stanza);
+        a.impegnato = false;
+      }
+    }
+    if (i % 3 === 0) await consegna();
+    await aspetta(1.2);
+  }
+}
+async function consegna() {
+  const b = trova('bit');
+  if (!b || b.impegnato) return;
+  b.impegnato = true; b.carico = true;
+  scrivi('Bit porta le candele nuove dell\'oro ai tre tornei.');
+  for (const k of ['t1', 't2', 't3']) { await vai(b, k); b.fumetto = {testo: 'Candele!', colore: '#4fd6e8'}; await aspetta(0.8); b.fumetto = null; }
+  b.carico = false;
+  await vai(b, 'dati');
+  b.impegnato = false;
+}
+
+// ---------- Tocchi ----------
+const pannelli = document.querySelectorAll('.pannello'), bottoni = document.querySelectorAll('[data-vai]');
+function apri(k, agente) {
+  scegliStanza = k; scelta = agente || null;
+  pannelli.forEach((p) => (p.hidden = p.dataset.stanza !== k));
+  bottoni.forEach((b) => b.classList.toggle('attivo', b.dataset.vai === k));
+  if (agente) scrivi(`${agente.nome}${agente.torneo && agente.ruolo !== 'caso' ? ' · Torneo ' + agente.torneo : ''}${agente.ruolo === 'gara' || agente.ruolo === 'caso' ? ' · totale ' + (agente.totale >= 0 ? '+' : '') + agente.totale.toFixed(1).replace('.', ',') + 'R (' + (agente.totale < 0 ? '-' : '+') + Math.abs(Math.round(agente.totale * 10)) + '$)' : ' · equipaggio'}`);
+}
+bottoni.forEach((b) => (b.onclick = () => { apri(b.dataset.vai); document.querySelector(`.pannello[data-stanza="${b.dataset.vai}"]`).scrollIntoView({behavior: 'smooth', block: 'nearest'}); }));
+function sotto(ev) {
+  const q = tela.getBoundingClientRect(), x = (ev.clientX - q.left) / scala, y = (ev.clientY - q.top) / scala;
+  const ag = agenti.find((a) => Math.abs(a.x - x) < 6 && y > a.y - 13 && y < a.y + 3);
+  const st = Object.entries(L.S).find(([, s]) => x >= s.x && x <= s.x + s.w && y >= s.y && y <= s.y + s.h);
+  return {ag, st: st && st[0], x: ev.clientX - q.left, y: ev.clientY - q.top};
+}
+tela.addEventListener('pointermove', (ev) => {
+  const {ag, st, x, y} = sotto(ev); sopra = ag || null;
+  const testo = ag ? ag.nome : st ? D.stanze[st] : '';
+  etichetta.style.display = testo ? 'block' : 'none'; etichetta.textContent = testo;
+  etichetta.style.left = Math.min(x + 12, nave.clientWidth - etichetta.offsetWidth - 4) + 'px'; etichetta.style.top = Math.max(4, y - 30) + 'px';
+});
+tela.addEventListener('pointerleave', () => { sopra = null; etichetta.style.display = 'none'; });
+tela.addEventListener('click', (ev) => { const {ag, st} = sotto(ev); if (ag) apri(ag.stanza, ag); else if (st) apri(st); });
+
+impagina();
+addEventListener('resize', () => { const v = verticale; impagina(); if (v !== verticale) for (const a of agenti) { a.via = []; const p = puntoIn(a.stanza); a.x = p.x; a.y = p.y; if (a.arrivato) { a.arrivato(); a.arrivato = null; } } });
+apri('ponte');
+requestAnimationFrame(ciclo);
+if (!fermo) racconta(); else scrivi('Animazione ferma: tocca le stanze per i numeri.');
+setTimeout(() => { if (!document.hidden) location.reload(); }, 300000);
+</script></body></html>
